@@ -77,8 +77,6 @@ public:
         typename std::enable_if<std::is_constructible<value_type, Args&&...>::value>::type
     {
         storage_ = static_cast<storage_type>(value_type(std::forward<Args>(args)...));
-        DEBUG_ASSERT(has_value(), detail::precondition_error_handler{},
-                     "create_value() called creating an invalid value");
     }
 
     /// \effects Copy assigns the `storage_type`.

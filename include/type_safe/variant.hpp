@@ -131,14 +131,12 @@ public:
     /// \group ctor_union
     explicit basic_variant(const tagged_union<HeadT, TailT...>& u)
     {
-        DEBUG_ASSERT(allow_empty::value || u.has_value(), detail::precondition_error_handler{});
         copy(storage_.get_union(), u);
     }
 
     /// \group ctor_union
     explicit basic_variant(tagged_union<HeadT, TailT...>&& u)
     {
-        DEBUG_ASSERT(allow_empty::value || u.has_value(), detail::precondition_error_handler{});
         move(storage_.get_union(), std::move(u));
     }
 
@@ -341,7 +339,6 @@ public:
     /// \requires The variant must be empty.
     nullvar_t value(variant_type<nullvar_t>) const noexcept
     {
-        DEBUG_ASSERT(!has_value(), detail::precondition_error_handler{});
         return nullvar;
     }
 
@@ -486,7 +483,6 @@ public:
         detail::map_union<Functor&&, union_t>::map(result.storage_.get_union(),
                                                    storage_.get_union(), std::forward<Functor>(f),
                                                    std::forward<Args>(args)...);
-        DEBUG_ASSERT(result.has_value(), detail::assert_handler{});
         return result;
     }
 
@@ -507,7 +503,6 @@ public:
                                                    std::move(storage_.get_union()),
                                                    std::forward<Functor>(f),
                                                    std::forward<Args>(args)...);
-        DEBUG_ASSERT(result.has_value(), detail::assert_handler{});
         return result;
     }
 #endif

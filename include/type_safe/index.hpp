@@ -183,9 +183,6 @@ template <typename Indexable>
 auto at(Indexable&& obj, const index_t& index)
     -> decltype(std::forward<Indexable>(obj)[static_cast<std::size_t>(get(index))])
 {
-    DEBUG_ASSERT(detail::index_valid(detail::member_size{}, obj,
-                                     static_cast<std::size_t>(get(index))),
-                 detail::precondition_error_handler{});
     return std::forward<Indexable>(obj)[static_cast<std::size_t>(get(index))];
 }
 

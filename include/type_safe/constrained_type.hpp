@@ -394,7 +394,6 @@ public:
     /// \requires It must not be in the moved-from state.
     value_type& get() noexcept
     {
-        DEBUG_ASSERT(value_, detail::precondition_error_handler{});
         return value_->get_non_const();
     }
 

@@ -247,8 +247,6 @@ private:
     template <typename T>
     void check(union_type<T> type) const noexcept
     {
-        DEBUG_ASSERT(cur_type_ == type, detail::precondition_error_handler{},
-                     "different type stored in union");
     }
 
     using storage_t = detail::aligned_union_t<Types...>;
@@ -441,7 +439,6 @@ void destroy(tagged_union<Types...>& u) noexcept
 template <typename... Types>
 void copy(tagged_union<Types...>& dest, const tagged_union<Types...>& org)
 {
-    DEBUG_ASSERT(!dest.has_value(), detail::precondition_error_handler{});
     detail::copy_union<tagged_union<Types...>>::copy(dest, org);
 }
 
@@ -451,7 +448,6 @@ void copy(tagged_union<Types...>& dest, const tagged_union<Types...>& org)
 template <typename... Types>
 void move(tagged_union<Types...>& dest, tagged_union<Types...>&& org)
 {
-    DEBUG_ASSERT(!dest.has_value(), detail::precondition_error_handler{});
     detail::move_union<tagged_union<Types...>>::move(dest, std::move(org));
 }
 } // namespace type_safe

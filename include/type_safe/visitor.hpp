@@ -220,8 +220,6 @@ namespace detail
                                            std::forward<Visitor>(visitor),
                                            std::forward<Args>(args)..., nullvar))>::type
         {
-            DEBUG_ASSERT(!variant.has_value(), assert_handler{},
-                         "it has a value but we are in this overload?!");
             return visit_variant_impl<AllowIncomplete, Visitor>::call(std::forward<Visitor>(
                                                                           visitor),
                                                                       std::forward<Args>(args)...,
@@ -237,8 +235,6 @@ namespace detail
                                         std::forward<Visitor>(visitor), std::forward<Args>(args)...,
                                         get_dummy_type(variant)))>::type
         {
-            DEBUG_ASSERT(!variant.has_value(), assert_handler{},
-                         "it has a value but we are in this overload?!");
             DEBUG_UNREACHABLE(precondition_error_handler{}, "variant in invalid state for visit");
             return visit_variant_impl<AllowIncomplete, Visitor>::call(std::forward<Visitor>(
                                                                           visitor),
@@ -296,8 +292,6 @@ namespace detail
                     std::forward<Visitor>(visitor), std::forward<Rest>(rest)...,
                     std::forward<Args>(args)..., nullvar))>::type
         {
-            DEBUG_ASSERT(std::decay<Variant>::type::allow_empty::value && !variant.has_value(),
-                         precondition_error_handler{}, "variant in invalid state for visitor");
             return visit_variant_impl<AllowIncomplete, Visitor,
                                       Rest...>::call(std::forward<Visitor>(visitor),
                                                      std::forward<Rest>(rest)...,
@@ -314,8 +308,6 @@ namespace detail
                     std::forward<Visitor>(visitor), std::forward<Rest>(rest)...,
                     std::forward<Args>(args)..., get_dummy_type(variant)))>::type
         {
-            DEBUG_ASSERT(!variant.has_value(), assert_handler{},
-                         "it has a value but we are in this overload?!");
             DEBUG_UNREACHABLE(precondition_error_handler{}, "variant in invalid state for visit");
             return visit_variant_impl<AllowIncomplete, Visitor,
                                       Rest...>::call(std::forward<Visitor>(visitor),

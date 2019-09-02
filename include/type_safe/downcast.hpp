@@ -54,8 +54,6 @@ namespace detail
         using derived_t = typename std::decay<Derived>::type;
         static_assert(std::is_base_of<Base, derived_t>::value,
                       "can only downcast from base to derived class");
-        DEBUG_ASSERT(detail::is_safe_downcast(derived_type<derived_t>{}, obj),
-                     detail::precondition_error_handler{}, "not a safe downcast");
     }
 } // namespace detail
 

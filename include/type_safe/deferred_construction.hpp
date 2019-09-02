@@ -103,7 +103,6 @@ public:
     template <typename... Args>
     void emplace(Args&&... args)
     {
-        DEBUG_ASSERT(!has_value(), detail::precondition_error_handler{});
         ::new (as_void()) value_type(std::forward<Args>(args)...);
         initialized_ = true;
     }
@@ -128,14 +127,12 @@ public:
     /// \group value
     value_type& value() TYPE_SAFE_LVALUE_REF noexcept
     {
-        DEBUG_ASSERT(has_value(), detail::precondition_error_handler{});
         return *static_cast<value_type*>(as_void());
     }
 
     /// \group value
     const value_type& value() const TYPE_SAFE_LVALUE_REF noexcept
     {
-        DEBUG_ASSERT(has_value(), detail::precondition_error_handler{});
         return *static_cast<const value_type*>(as_void());
     }
 
@@ -143,14 +140,12 @@ public:
     /// \group value
     value_type&& value() && noexcept
     {
-        DEBUG_ASSERT(has_value(), detail::precondition_error_handler{});
         return std::move(*static_cast<value_type*>(as_void()));
     }
 
     /// \group value
     const value_type&& value() const&& noexcept
     {
-        DEBUG_ASSERT(has_value(), detail::precondition_error_handler{});
         return std::move(*static_cast<const value_type*>(as_void()));
     }
 #endif

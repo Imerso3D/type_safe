@@ -124,7 +124,6 @@ public:
             is_normal_ptr_ = true;
         }
 
-        DEBUG_ASSERT(is_normal_ptr_, detail::assert_handler{});
         return *static_cast<T*>(ptr_);
     }
 

@@ -136,7 +136,6 @@ namespace detail
             void operator()(T&, Union& a, Union& b)
             {
                 constexpr auto id = typename Union::type_id(union_type<T>{});
-                DEBUG_ASSERT(a.type() == id, detail::assert_handler{});
 
                 if (b.type() == id)
                 {
@@ -194,14 +193,12 @@ namespace detail
         template <typename... Args>
         static void map(Union& res, const Union& u, Functor&& f, Args&&... args)
         {
-            DEBUG_ASSERT(!res.has_value(), precondition_error_handler{});
             with(u, visitor{}, res, std::forward<Functor>(f), std::forward<Args>(args)...);
         }
 
         template <typename... Args>
         static void map(Union& res, Union&& u, Functor&& f, Args&&... args)
         {
-            DEBUG_ASSERT(!res.has_value(), precondition_error_handler{});
             with(std::move(u), visitor{}, res, std::forward<Functor>(f),
                  std::forward<Args>(args)...);
         }

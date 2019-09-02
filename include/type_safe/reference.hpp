@@ -331,7 +331,6 @@ public:
     /// \group range
     void assign(T* begin, T* end) noexcept
     {
-        DEBUG_ASSERT(begin <= end, detail::precondition_error_handler{}, "invalid array bounds");
         begin_ = begin;
         size_  = static_cast<size_t>(make_unsigned(end - begin));
     }
@@ -339,8 +338,6 @@ public:
     /// \group ptr_size
     void assign(T* array, size_t size) noexcept
     {
-        DEBUG_ASSERT(size == 0u || array, detail::precondition_error_handler{},
-                     "invalid array bounds");
         begin_ = array;
         size_  = size;
     }
@@ -382,8 +379,6 @@ public:
     /// \requires `i < size()`.
     reference_type operator[](index_t i) const noexcept
     {
-        DEBUG_ASSERT(static_cast<size_t&>(i) < size_, detail::precondition_error_handler{},
-                     "out of bounds array access");
         return static_cast<reference_type>(at(begin_, i));
     }
 
@@ -667,8 +662,6 @@ private:
         using pointer_type        = Return2 (*)(Args2...);
         using stored_pointer_type = void (*)();
 
-        DEBUG_ASSERT(fptr, detail::precondition_error_handler{},
-                     "function pointer must not be null");
         ::new (get_memory()) stored_pointer_type(reinterpret_cast<stored_pointer_type>(fptr));
 
         cb_ = &invoke_function_pointer<pointer_type, stored_pointer_type>;
